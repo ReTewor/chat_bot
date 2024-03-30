@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Приветственное сообщение</title>
+</head>
+<body>
+<h1>Приветствую! Напишите ваш вопрос:</h1>
+<form id="chat-form">
+<input type="text" id="user-input">
+<button type="submit">Отправить</button>
+</form>
+<div id="chat-container"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+$('#chat-form').submit(function(event){
+event.preventDefault();
+var userInput = $('#user-input').val();
+$('#chat-container').append('<p><strong>Вы:</strong> ' + userInput + '</p>');
+$('#user-input').val('');
+
+$.ajax({
+type: 'POST',
+url: '',
+data: {
+'message': userInput,
+'csrfmiddlewaretoken': '{{ csrf_token }}'
+},
+success: function(data){
+$('#chat-container').append('<p><strong>Бот:</strong> ' + data.response + '</p>');
+}
+});
+});
+});
+</script>
+</body>
+</html>
